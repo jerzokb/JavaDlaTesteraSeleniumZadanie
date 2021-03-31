@@ -4,10 +4,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.CreateAnAccountPage;
 import pages.LoginPage;
 import pages.TopMenuPage;
 import utils.LoginPageUtils;
+
+import java.time.Duration;
 
 public class LoginTest extends  BaseTest{
     private TopMenuPage topMenuPage;
@@ -23,7 +26,6 @@ public class LoginTest extends  BaseTest{
         topMenuPage.clickButtonSignIn();
 
         loginPage = new LoginPage(driver);
-        loginPage.goToCreateAnAccountForm();
 
         createAnAccountPage = new CreateAnAccountPage(driver);
     }
@@ -34,17 +36,13 @@ public class LoginTest extends  BaseTest{
     }
 
     @Test
-    public void shouldDisplayCreateAnAccountFrom() {
-        Assertions.assertThat(createAnAccountPage.isFormCreateAnAccountDisplayed()).isTrue();
-    }
-
-    @Test
-    public void checkEmialAddressOnCreateAnAccountFrom() {
+    public void emailAddressShouldBeUnique() {
+        loginPage.getCreateAccountErrorMessage();
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Assertions.assertThat(createAnAccountPage.getEmialText()).containsIgnoringCase(LoginPageUtils.TEST_EMAIL);
+        Assertions.assertThat(loginPage.isCreateAccountErrorDisplayed()).isTrue();
     }
 }
