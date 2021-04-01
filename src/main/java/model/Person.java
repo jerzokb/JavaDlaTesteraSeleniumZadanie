@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class Person {
-    private String firsName;
+    private String firstName;
     private String lastName;
 }

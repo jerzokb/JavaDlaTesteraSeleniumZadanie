@@ -3,6 +3,8 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.LoginPageUtils;
 
@@ -20,20 +22,20 @@ public class LoginPage extends BasePage {
     @FindBy(id = "SubmitCreate")
     WebElement buttonCreateAnAccount;
 
-    @FindBy(xpath = "//div[@id='create_account_error']")
+    @FindBy(className = "alert-danger")
     WebElement createAccountError;
 
-    public void goToCreateAnAccountForm() {
-        inputEmail.sendKeys(LoginPageUtils.TEST_NEW_EMAIL);
-        buttonCreateAnAccount.click();
-    }
-
-    public void getCreateAccountErrorMessage() {
-        inputEmail.sendKeys(LoginPageUtils.TEST_EXISTING_EMAIL);
+    public void goToCreateAnAccountForm(String emial) {
+        inputEmail.sendKeys(emial);
         buttonCreateAnAccount.click();
     }
 
     public boolean isCreateAccountErrorDisplayed() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return createAccountError.isDisplayed();
     }
 }

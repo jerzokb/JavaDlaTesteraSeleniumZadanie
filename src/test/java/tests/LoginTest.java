@@ -37,12 +37,7 @@ public class LoginTest extends  BaseTest{
 
     @Test
     public void emailAddressShouldBeUnique() {
-        loginPage.getCreateAccountErrorMessage();
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        loginPage.goToCreateAnAccountForm(LoginPageUtils.TEST_EXISTING_EMAIL);
         Assertions.assertThat(loginPage.isCreateAccountErrorDisplayed()).isTrue();
     }
 }

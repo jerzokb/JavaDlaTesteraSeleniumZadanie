@@ -6,6 +6,7 @@ import model.Address;
 import model.PersonnalInformation;
 import org.assertj.core.api.AbstractBooleanAssert;
 import org.assertj.core.api.Assertions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -30,9 +31,6 @@ public class CreateAnAccountPage extends BasePage{
 
     @FindBy(className = "alert-danger")
     WebElement errorMessage;
-
-    @FindBy(xpath = "//div[@class='alert-danger']//li")
-    WebElement errorMessageText;
 
     @FindBy(id = "uniform-id_gender1")
     WebElement radioButtonMr;
@@ -61,16 +59,19 @@ public class CreateAnAccountPage extends BasePage{
     @FindBy(id = "postcode")
     WebElement postCode;
 
-    @FindBy(id = "uniform-id_country")
-    WebElement uniformIdCountry;
-
     @FindBy(id = "phone_mobile")
     WebElement phoneMobile;
 
     @FindBy(id = "alias")
     WebElement alias;
+    
 
     public boolean isFormCreateAnAccountDisplayed() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return formCreateAnAccount.isDisplayed();
     }
 
@@ -83,11 +84,16 @@ public class CreateAnAccountPage extends BasePage{
     }
 
     public boolean isErrorMessageDisplayed() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return errorMessage.isDisplayed();
     }
 
-    public String getMessageText() {
-        return errorMessageText.getText();
+    public String textDisplayed() {
+        return errorMessage.getText();
     }
 
     public void clickTitleMr() {
@@ -100,16 +106,40 @@ public class CreateAnAccountPage extends BasePage{
         radioButtonMrs.click();
     }
 
-    public void setAccountInfo(PersonnalInformation personnalInformation, Address adress) {
-        this.clickTitleMr();
+    public void setAccountInfo(PersonnalInformation personnalInformation, Address address, int switcher) {
+        clickTitleMr();
+        customerFirstName.sendKeys(personnalInformation.getPerson().getFirstName());
         customerLastName.sendKeys(personnalInformation.getPerson().getLastName());
-        passwd.sendKeys(personnalInformation.getEmail());
-        address1.sendKeys(adress.getAddress());
-        city.sendKeys(adress.getCity());
-        idState.sendKeys(adress.getState().getValue());
-        postCode.sendKeys(adress.getZipCode());
-        uniformIdCountry.sendKeys(adress.getCountry().getValue());
-        phoneMobile.sendKeys(adress.getMobilePhone());
-        alias.sendKeys(adress.getAlias());
+        passwd.sendKeys(personnalInformation.getPassword());
+        address1.sendKeys(address.getAddress());
+        city.sendKeys(address.getCity());
+        idState.sendKeys(address.getState().getValue());
+        postCode.sendKeys(address.getZipCode());
+        phoneMobile.sendKeys(address.getMobilePhone());
+        alias.sendKeys(address.getAlias());
+        switch (switcher) {
+            case 1: // all data
+                break;
+            case 2: // no first name
+                customerFirstName.clear();
+                break;
+            case 3: // no last name
+                customerLastName.clear();
+                break;
+            case 4: // no password
+                passwd.clear();
+            case 5: // no address
+                address1.clear();
+            case 6: // no city
+                city.clear();
+            case 7: // no zip code
+                postCode.clear();
+            case 8: // no phone
+                phoneMobile.clear();
+            case 9: // invalid postal code number
+                postCode.click();
+                postCode.sendKeys("ABCDE");
+        }
+
     }
 }
