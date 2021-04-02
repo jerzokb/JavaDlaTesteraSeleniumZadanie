@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.WebDriver;
 
+
 public class BaseTest {
 
     protected static final String BASE_URL = "http://automationpractice.com/index.php";

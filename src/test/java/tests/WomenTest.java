@@ -29,24 +29,10 @@ public class WomenTest extends BaseTest{
     }
 
     @Test
-    public void pricesShouldNotBeZero1() {
+    public void pricesShouldNotBeZero() {
         boolean isPriceZero = false;
-        for(int i = 0; i < womenPage.getNumberOfProducts(); i++) {
-            if (womenPage.getProductsPrices().get(i) == WomenPageUtils.PRICE_NOT_VALID) {
-                isPriceZero = true;
-            }
-        }
+        isPriceZero = womenPage.getProductsPrices().stream()
+                .anyMatch(s -> s == WomenPageUtils.PRICE_NOT_VALID);
         Assertions.assertThat(isPriceZero).isEqualTo(false);
-    }
-
-    @Test
-    public void pricesShouldNotBeZero2() {
-        int nonZeroPrices = 0;
-        for(int i = 0; i < womenPage.getNumberOfProducts(); i++) {
-            if (womenPage.getProductsPrices().get(i) != WomenPageUtils.PRICE_NOT_VALID) {
-                nonZeroPrices = nonZeroPrices + 1;
-            }
-        }
-        Assertions.assertThat(womenPage.getNumberOfProducts()).isEqualTo(nonZeroPrices);
     }
 }

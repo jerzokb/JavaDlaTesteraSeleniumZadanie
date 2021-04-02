@@ -40,4 +40,10 @@ public class LoginTest extends  BaseTest{
         loginPage.goToCreateAnAccountForm(LoginPageUtils.TEST_EXISTING_EMAIL);
         Assertions.assertThat(loginPage.isCreateAccountErrorDisplayed()).isTrue();
     }
+
+    @Test
+    public void checkEmailAddressOnCreateAnAccountFrom() {
+        loginPage.goToCreateAnAccountForm(LoginPageUtils.TEST_NEW_EMAIL);
+        Assertions.assertThat(createAnAccountPage.getEmailText()).containsIgnoringCase(LoginPageUtils.TEST_NEW_EMAIL);
+    }
 }

@@ -1,18 +1,12 @@
 package pages;
 
-import enums.Countries;
-import enums.States;
 import model.Address;
-import model.PersonnalInformation;
-import org.assertj.core.api.AbstractBooleanAssert;
-import org.assertj.core.api.Assertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import model.PersonalInformation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
+import utils.CreateAccountPageUtils;
 
 public class CreateAnAccountPage extends BasePage{
 
@@ -24,7 +18,7 @@ public class CreateAnAccountPage extends BasePage{
     WebElement formCreateAnAccount;
 
     @FindBy(id = "email")
-    WebElement inputEmial;
+    WebElement email;
 
     @FindBy(id = "submitAccount")
     WebElement buttonSumbitAccount;
@@ -67,28 +61,22 @@ public class CreateAnAccountPage extends BasePage{
     
 
     public boolean isFormCreateAnAccountDisplayed() {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        awaitUntilElementIsDisplayed(formCreateAnAccount);
         return formCreateAnAccount.isDisplayed();
     }
 
-    public String getEmialText() {
-        return inputEmial.getAttribute("value");
+    public String getEmailText() {
+        awaitUntilElementHasValue(email);
+        return email.getAttribute("value");
     }
 
     public void clickSubmitAccountButton() {
+        awaitUntilElementIsDisplayed(buttonSumbitAccount);
         buttonSumbitAccount.click();
     }
 
     public boolean isErrorMessageDisplayed() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        awaitUntilElementIsDisplayed(errorMessage);
         return errorMessage.isDisplayed();
     }
 
@@ -106,37 +94,37 @@ public class CreateAnAccountPage extends BasePage{
         radioButtonMrs.click();
     }
 
-    public void setAccountInfo(PersonnalInformation personnalInformation, Address address, int switcher) {
+    public void setAccountInfo(PersonalInformation personalInformation, Address address, String missingField) {
         clickTitleMr();
-        customerFirstName.sendKeys(personnalInformation.getPerson().getFirstName());
-        customerLastName.sendKeys(personnalInformation.getPerson().getLastName());
-        passwd.sendKeys(personnalInformation.getPassword());
+        customerFirstName.sendKeys(personalInformation.getPerson().getFirstName());
+        customerLastName.sendKeys(personalInformation.getPerson().getLastName());
+        passwd.sendKeys(personalInformation.getPassword());
         address1.sendKeys(address.getAddress());
         city.sendKeys(address.getCity());
         idState.sendKeys(address.getState().getValue());
         postCode.sendKeys(address.getZipCode());
         phoneMobile.sendKeys(address.getMobilePhone());
         alias.sendKeys(address.getAlias());
-        switch (switcher) {
-            case 1: // all data
+        switch (missingField) {
+            case CreateAccountPageUtils.MISSING_NONE: // all data are provided
                 break;
-            case 2: // no first name
+            case CreateAccountPageUtils.MISSING_CUSTOMER_FIRST_NAME: // no first name
                 customerFirstName.clear();
                 break;
-            case 3: // no last name
+            case CreateAccountPageUtils.MISSING_CUSTOMER_LAST_NAME: // no last name
                 customerLastName.clear();
                 break;
-            case 4: // no password
+            case CreateAccountPageUtils.MISSING_PASSWD: // no password
                 passwd.clear();
-            case 5: // no address
+            case CreateAccountPageUtils.MISSING_ADDRESS1: // no address
                 address1.clear();
-            case 6: // no city
+            case CreateAccountPageUtils.MISSING_CITY: // no city
                 city.clear();
-            case 7: // no zip code
+            case CreateAccountPageUtils.MISSING_POST_CODE: // no zip code
                 postCode.clear();
-            case 8: // no phone
+            case CreateAccountPageUtils.MISSING_PHONE_MOBILE: // no phone
                 phoneMobile.clear();
-            case 9: // invalid postal code number
+            case CreateAccountPageUtils.POST_CODE_FORMAT_INCORRECT: // invalid postal code number
                 postCode.click();
                 postCode.sendKeys("ABCDE");
         }

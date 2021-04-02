@@ -3,7 +3,7 @@ package model;
 import lombok.Data;
 
 @Data
-public class PersonnalInformation {
+public class PersonalInformation {
 
     private Person person;
     private String email;

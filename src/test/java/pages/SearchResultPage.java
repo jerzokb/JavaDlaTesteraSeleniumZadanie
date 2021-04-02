@@ -7,9 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SearchResulPage extends BasePage {
+public class SearchResultPage extends BasePage {
 
-    public SearchResulPage(WebDriver driver) {
+    public SearchResultPage(WebDriver driver) {
         super(driver);
     }
 

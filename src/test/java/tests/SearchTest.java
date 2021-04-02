@@ -5,15 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.MainPage;
-import pages.SearchResulPage;
-import pages.SubMenuPage;
+import pages.SearchResultPage;
 import utils.SearchPageUtils;
-import utils.WomenPageUtils;
 
 public class SearchTest extends BaseTest{
 
     private MainPage mainPage;
-    private SearchResulPage searchResulPage;
+    private SearchResultPage searchResultPage;
 
     @BeforeEach
     public void setupTest() {
@@ -23,7 +21,7 @@ public class SearchTest extends BaseTest{
         mainPage = new MainPage(driver);
         mainPage.clickSearchProduct();
 
-        searchResulPage = new SearchResulPage(driver);
+        searchResultPage = new SearchResultPage(driver);
     }
 
     @Test
@@ -33,13 +31,13 @@ public class SearchTest extends BaseTest{
 
     @Test
     public void shouldDisplayedSearchedProducts() {
-        for (int i = 0; i < searchResulPage.getProductNamesListSize(); i++) {
-            Assertions.assertThat(searchResulPage.productsNames().get(i)).isEqualTo(SearchPageUtils.PRODUCT_NAME);
+        for (int i = 0; i < searchResultPage.getProductNamesListSize(); i++) {
+            Assertions.assertThat(searchResultPage.productsNames().get(i)).isEqualTo(SearchPageUtils.PRODUCT_NAME);
         }
     }
 
     @Test
     public void shouldReturnOneElement() {
-        Assertions.assertThat(searchResulPage.getProductNamesListSize()).isEqualTo(1);
+        Assertions.assertThat(searchResultPage.getProductNamesListSize()).isEqualTo(1);
     }
 }

@@ -3,12 +3,6 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.LoginPageUtils;
-
-import java.time.Duration;
 
 public class LoginPage extends BasePage {
 
@@ -25,17 +19,14 @@ public class LoginPage extends BasePage {
     @FindBy(className = "alert-danger")
     WebElement createAccountError;
 
-    public void goToCreateAnAccountForm(String emial) {
-        inputEmail.sendKeys(emial);
+    public void goToCreateAnAccountForm(String email) {
+        awaitUntilElementIsDisplayed(inputEmail);
+        inputEmail.sendKeys(email);
         buttonCreateAnAccount.click();
     }
 
     public boolean isCreateAccountErrorDisplayed() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        awaitUntilElementIsDisplayed(createAccountError);
         return createAccountError.isDisplayed();
     }
 }
